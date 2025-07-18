@@ -1,0 +1,33 @@
+# PICO-8 System Files
+log.txt
+activity_log.txt
+# config.txt
+sdl_controllers.txt
+favourites.txt
+
+# PICO-8 User Data Directories
+backup/
+bbs/
+cdata/
+cstore/
+plates/
+
+# Compiled Cartridges (optional - see note below)
+*.p8
+
+# OS Files
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+*.swo
+*~
+
+# IDE/Editor Files
+.vscode/
+.idea/
+*.sublime-*
+
+# Backup Files
+*.bak
+*.backup
