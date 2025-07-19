@@ -1,20 +1,10 @@
 #include ./math.lua
 #include ./const.lua
-#include ./map.lua
+#include ./map2.lua
+#include ./map1.lua
+map = MAP2
 #include ./util.lua
 #include ./settings.lua
-
-SETTINGS.FOV = 0.9272952
-
-SETTINGS.FOV = 0.9272952
-
-SETTINGS.FOV = 0.9272952
-
-SETTINGS.FOV = 0.9272952
-
-SETTINGS.FOV = 0.9272952
-
-SETTINGS.FOV = 0.9272952
 #include ./player.lua
 #include ./raycasting.lua
 
@@ -34,10 +24,9 @@ function _draw()
 	for i = 0, SCREEN.RIGHT do
 		local ray_angle = player.rot - SETTINGS.FOV / 2 + i * SETTINGS.FOV / SCREEN.RIGHT
 		ray_angle = normalize_angle(ray_angle)
-		local perp_wall_dist, side, map_coords = cast_ray(player.x, player.y, ray_angle, player.rot, MAP1.GRID)
+		local perp_wall_dist, side, map_coords = cast_ray(player.x, player.y, ray_angle, player.rot)
 
-		wall_color = MAP1.GRID[map_coords[1]][map_coords[2]]
-
+		wall_color = map:get_tile(map_coords[1], map_coords[2])
 		if wall_color > 0 then
 			local wall_height = SETTINGS.HEIGHT_SCALE / perp_wall_dist
 			local wall_top = SCREEN.MIDDLE - wall_height / 2

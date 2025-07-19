@@ -5,11 +5,11 @@ player = {
 }
 
 function player_init()
-	for i = 1, MAP1.SIZE do
-		for j = 1, MAP1.SIZE do
-			if MAP1.GRID[i][j] == -1 then
-				player.x = j + 0.5
-				player.y = i + 0.5
+	for x = 1, map.SIZE do
+		for y = 1, map.SIZE do
+			if map:get_tile(x, y) == -1 then
+				player.x = x + 0.5
+				player.y = y + 0.5
 			end
 		end
 	end
@@ -44,7 +44,6 @@ function player_update()
 end
 
 function player_draw()
-	print_debug_info()
 end
 
 function _move_player(direction)
@@ -71,9 +70,5 @@ end
 function collide()
 	map_x = flr(player.x)
 	map_y = flr(player.y)
-
-	return MAP1.GRID[map_x][map_y] > 0
-end
-
-function print_debug_info()
+	return map:get_tile(map_x, map_y) > 1
 end

@@ -1,4 +1,4 @@
-function cast_ray(px, py, ray_angle, player_rotation, world_map)
+function cast_ray(px, py, ray_angle, player_rotation)
 	ray_dx = cos_rad(ray_angle)
 	ray_dy = sin_rad(ray_angle)
 
@@ -38,9 +38,9 @@ function cast_ray(px, py, ray_angle, player_rotation, world_map)
 
 		temp_dist_x = px
 
-		if map_x < 1 or map_x > MAP1.SIZE or map_y < 1 or map_y > MAP1.SIZE then
+		if map_x < 1 or map_x > map.SIZE or map_y < 1 or map_y > map.SIZE then
 			hit = true
-		elseif world_map[map_x][map_y] > 0 then
+		elseif map:get_tile(map_x, map_y) > 0 then
 			hit = true
 		end
 	end
