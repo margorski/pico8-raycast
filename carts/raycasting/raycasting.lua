@@ -46,14 +46,24 @@ function cast_ray(px, py, ray_angle, player_rotation)
 	end
 
 	if side == 0 then
-		ray_dist = (map_x - px + (1 - step_x) / 2) / ray_dx
+		-- X-side hit (vertical wall)
+		direction_sign = (1 - step_x) / 2
+		ray_dist = (map_x - px + direction_sign) / ray_dx
+		-- Texture coordinate: Y position where ray hits the wall
+		wall_hit_y = py + ray_dist * ray_dy
+		texture_coord = wall_hit_y - flr(wall_hit_y) -- Fractional part
 	else
-		ray_dist = (map_y - py + (1 - step_y) / 2) / ray_dy
+		-- Y-side hit (horizontal wall)
+		direction_sign = (1 - step_y) / 2
+		ray_dist = (map_y - py + direction_sign) / ray_dy
+		-- Texture coordinate: X position where ray hits the wall
+		wall_hit_x = px + ray_dist * ray_dx
+		texture_coord = fractional(wall_hit_x) -- Fractional part
 	end
 
 	diff_angle = normalize_angle(ray_angle - player_rotation)
 	perp_wall_dist = ray_dist * cos_rad(diff_angle)
 	perp_wall_dist = abs(perp_wall_dist)
 
-	return perp_wall_dist, side, { map_x, map_y }
+	return perp_wall_dist, texture_coord, { map_x, map_y }
 end

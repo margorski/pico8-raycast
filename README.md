@@ -1,29 +1,36 @@
 # PICO-8 Raycasting Engine
 
-A Wolfenstein 3D-style raycasting engine implementation for PICO-8.
+A Wolfenstein 3D-style raycasting engine implementation for PICO-8 with texture mapping support.
 
 ## Project Structure
 
 ```
 carts/raycasting/
-├── main.lua          # Main game loop and rendering
-├── raycasting.lua     # Core raycasting algorithm (DDA)
-├── player.lua         # Player movement and collision
-├── map.lua           # Level map data and structure
+├── main.lua          # Main game loop and rendering pipeline
+├── raycasting.lua     # Core raycasting algorithm (DDA) with texture coordinates
+├── player.lua         # Player movement, rotation, and collision detection
+├── map2.lua           # 32x32 labyrinth map with multiple themed rooms
 ├── math.lua          # Mathematical utilities and angle conversion
 ├── const.lua         # Constants (screen, colors, math)
-├── settings.lua      # Game configuration
+├── settings.lua      # Game configuration and FOV settings
 ├── util.lua          # General utility functions
 └── pico-raycast.p8   # Compiled PICO-8 cartridge
 ```
 
-## Core Components
+## Core Features
 
 ### Raycasting Engine (`raycasting.lua`)
 
 - **DDA Algorithm**: Digital Differential Analyzer for efficient ray-grid traversal
-- **Wall Detection**: Identifies wall hits and calculates distances
-- **Perspective Correction**: Prevents fisheye distortion using perpendicular wall distance
+- **Wall Detection**: Identifies wall hits and calculates precise distances
+- **Fisheye Correction**: Prevents distortion using perpendicular wall distance with cosine projection
+- **Texture Coordinate Calculation**: Stable texture mapping using exact ray-wall intersection points
+
+### Dual Rendering System (`main.lua`)
+
+- **Textured Walls**: Walls with values 1-4 render with sprite-based textures
+- **Colored Walls**: Other wall values render as solid colored rectangles
+- **Background Rendering**: Sky (blue) and floor (dark blue) with horizon line
 
 ### Player System (`player.lua`)
 
@@ -38,15 +45,16 @@ carts/raycasting/
 
 ## Map Format
 
-10x10 grid in `MAP1.GRID`:
+32x32 grid in `map.GRID`:
 
 - `0` = Empty space (walkable)
-- `1` = Wall (colored blocks)
+- `1-4` = Textured walls (render with sprites)
+- `>5` = Colored walls
 - `-1` = Player spawn point
 
 ## Configuration
 
-Settings are defined in `settings.lua`:
+Settings in `settings.lua`:
 
 ```lua
 SETTINGS = {
@@ -69,8 +77,15 @@ The FOV value of 0.9272952 radians (≈53.13°) is mathematically calculated for
 **Radians vs PICO-8 Turns**: The engine uses radians for all angle calculations instead of PICO-8's native turn units (0.0-1.0). Conversion functions in `math.lua`:
 
 - `sin_rad()` / `cos_rad()` - Radian-based trigonometry
-- `normalize_angle()` - Angle wrapping
-- `turns_to_rad()` / `rads_to_turns()` - Unit conversion
+- `normalize_angle()` - Proper angle wrapping
+- `fractional()` - Clean floating-point fraction extraction
+- **DDA to Perpendicular Distance**: `perp_dist = ray_dist * cos(ray_angle - player_angle)`
+
+**Texture Coordinate Calculation**:
+
+- **Vertical Walls**: `texture_coord = fractional(wall_hit_y)`
+- **Horizontal Walls**: `texture_coord = fractional(wall_hit_x)`
+- **Precision**: Uses exact intersection geometry, not accumulated step distances
 
 ## Controls
 
@@ -84,6 +99,20 @@ The FOV value of 0.9272952 radians (≈53.13°) is mathematically calculated for
 - Change `SETTINGS.HEIGHT_SCALE` to scale wall heights
 - Modify `SETTINGS.PLAYER.SPEED` and `TURN_SPEED` for movement responsiveness
 - Add new wall colors by updating map values
+
+## TODO
+
+- [ ] Door and switches
+- [ ] Collectible items
+- [ ] Enemies
+- [ ] Draw weapon and HUD
+- [ ] HP, bullets and points logic
+- [ ] Movement adjustments (running, better collisions)
+- [ ] Sound
+- [ ] Dynamic lights
+- [ ] Multiple maps
+- [ ] Beginning and ending
+- [ ] Main menu
 
 ---
 

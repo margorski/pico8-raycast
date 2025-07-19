@@ -70,5 +70,5 @@ end
 function collide()
 	map_x = flr(player.x)
 	map_y = flr(player.y)
-	return map:get_tile(map_x, map_y) > 1
+	return map:get_tile(map_x, map_y) > 0
 end

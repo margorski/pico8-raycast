@@ -45,3 +45,7 @@ end
 function cos_rad(rad)
     return cos(rads_to_turns(rad))
 end
+
+function fractional(value)
+    return value - flr(value)
+end
