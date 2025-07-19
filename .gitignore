@@ -12,9 +12,6 @@ cdata/
 cstore/
 plates/
 
-# Compiled Cartridges (optional - see note below)
-*.p8
-
 # OS Files
 .DS_Store
 Thumbs.db
