@@ -1,9 +1,9 @@
 pico-8 cartridge // http://www.pico-8.com
 version 42
 __lua__
-#include ./raycasting/const.lua
-#include ./raycasting/util.lua
-#include ./raycasting/math.lua
+#include ./shared/const.lua
+#include ./shared/util.lua
+#include ./shared/math.lua
 #include ./raycasting/settings.lua
 #include ./raycasting/map2.lua
 #include ./raycasting/player.lua
