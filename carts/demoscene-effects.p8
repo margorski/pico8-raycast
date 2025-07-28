@@ -4,6 +4,8 @@ __lua__
 #include ./shared/const.lua
 #include ./shared/util.lua
 #include ./shared/math.lua
+#include ./demoscene-effects/rotozoomer.lua
+#include ./demoscene-effects/fire.lua
 #include ./demoscene-effects/main.lua
 
 __gfx__
